@@ -1,36 +1,23 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "sf-metadata-helper" is now active!');
+    // "Hello World" command
+    let helloCommand = vscode.commands.registerCommand('extension.helloWorld', () => {
+        vscode.window.showInformationMessage('Hello World from my first extension!');
+    });
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('sf-metadata-helper.printFileInfo', () => {
-		const editor = vscode.window.activeTextEditor;
-		if (editor) {
-			const document = editor.document;
-			const fileName = document.fileName;
-			const fileContent = document.getText();
-			
-			console.log(`File Name: ${fileName}`);
-			console.log(`File Content:\n${fileContent}`);
-			
-			vscode.window.showInformationMessage('File info printed to console');
-		} else {
-			vscode.window.showErrorMessage('No active text editor');
-		}
-	});
+    // New command to insert a code snippet
+    let insertSnippetCommand = vscode.commands.registerCommand('extension.insertSnippet', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const snippet = new vscode.SnippetString('console.log($1);');
+            editor.insertSnippet(snippet);
+        }
+    });
 
-	context.subscriptions.push(disposable);
+    context.subscriptions.push(helloCommand);
+    context.subscriptions.push(insertSnippetCommand);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
